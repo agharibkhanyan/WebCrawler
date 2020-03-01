@@ -1,0 +1,65 @@
+OpenLab Instructions
+=====================
+VPN into UCI-Full using Cisco AnyConnect VPN Client
+
+install dependencies:
+
+# pip3 install --user packages/spacetime-2.1.1-py3-none-any.whl
+# pip3 install --user -r packages/requirements.txt
+# pip3 install --user lxml
+# pip3 install --user tldextract
+Now, configure your config.ini
+
+launch it: python3 launch.py
+
+It should try to run, but return: ConnectionRefusedError: [Errno 111] Connection refused
+
+This just means that the server is still down.
+
+
+### Foreach run, DELETE the frontier.shelve file in openlab solution directory
+to have it run LATEST copy of code ###
+
+
+LOCAL Anaconda Install Instructions
+====================================
+VPN into UCI-Full using Cisco AnyConnect VPN Client
+
+Anaconda => Environments => crawlIS => Right-click => Open in Terminal
+
+install dependencies:
+# pip install --user packages/spacetime-2.1.1-py3-none-any.whl
+# pip install --user -r packages/requirements.txt
+
+launch it: python launch.py
+
+
+INSTALL packages in Anaconda Navigator Environment:
+-lxml
+-beautifulsoup4
+-redis-py
+    pip (crawlIS):
+        pip install tldextract
+
+
+# sudo ufw disable
+
+# sudo apt install redis-server
+# sudo systemctl enable redis-server.service
+
+Before (file /etc/redis/redis.conf)
+bind 127.0.0.1
+After
+bind 0.0.0.0
+
+-open the config file: /etc/redis/redis.conf
+# change appendonly to yes and save file
+appendonly yes
+
+#in terminal,
+redis-cli
+127.0.0.1:6379> BGREWRITEAOF
+CTRL + C to exit
+
+# restart the service
+-sudo service redis-server restart

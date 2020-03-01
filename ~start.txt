@@ -1,0 +1,6 @@
+Anaconda Navigator
+===================
+1. Environments
+2. crawlerIS => Open Terminal
+3. cd C:\1_Repos\spacetime-crawler4py
+    python launch.py --config_file config.ini

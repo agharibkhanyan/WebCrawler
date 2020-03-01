@@ -1,0 +1,58 @@
+def scraper(url, resp):
+    global storeSeeds
+    if storeSeeds == 0:#Store seed robot.txts only once.
+        tutils.robotsTxtParseSeeds()
+        storeSeeds += 1
+    links = extract_next_links(url, resp)
+    if(links != None):
+        validLinks = []
+        for link in links:
+            if tutils.isValid(link):
+                #DataStore.urlSeenBefore.add(link)# ADDED AS OF 2/9 2AM
+                r.sadd(visitedURL,link)
+                str=tutils.removeFragment(link)
+                r.sadd(uniqueUrl,str)
+                validLinks.append(link)
+                tutils.robotsTxtParse(url)
+            else:
+                r.sadd(blackList, url)
+        return validLinks#[link for link in links if is_valid(link)]   #automatically adds to frontier
+    else:
+        return list()
+
+
+
+
+        
+    for link in soup.find_all('a'):
+        # get absolute urls here before adding to listLInks()
+        childURL = link.get('href')
+
+        newlink = ""
+        # REGEX function HERE to sanitize url and/or urljoin path to hostname
+        if(childURL != None):
+            newlink = tutils.returnFullURL(url, childURL)
+
+        if not tutils.isValid(newlink): #skip invalid urls
+            r.sadd(blackList, newlink)
+            continue
+
+        if(len(newlink) > 0):
+            newlink = tutils.removeFragment(newlink)
+
+        ### CHECK IF WE'VE already seen url and skip it ###
+        boolSeenBefore = r.sismember(visitedURL, newlink)
+        if(boolSeenBefore):
+            continue
+
+        if(len(url) > 0):
+            listLinks.append(newlink)
+
+
+DEBUG = False
+
+# redis keys
+if DEBUG == True
+BLACKLIST = "test_blacklist"
+else
+BLACKLIST = "blacklist"
